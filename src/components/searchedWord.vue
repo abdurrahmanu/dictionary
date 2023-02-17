@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-32 w-full">
+    <div class="w-full">
         <div class="flex justify-center h-14 text-gray-800 m-auto max-w-[90%] w-fit items-center rounded-lg">
             <div class="gap-4 p-2 px-7 flex justify-center min-w-fit items-center">
                 <p class="uppercase font-mono text-2xl">{{ data.word }}</p>

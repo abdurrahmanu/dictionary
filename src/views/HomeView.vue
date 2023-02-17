@@ -1,24 +1,26 @@
 <template>
-  <div class="overflow-hidden bg-orange-200 min-h-screen pb-4 pt-32">
-    <navBar />
+  <div class="overflow-hidden bg-[#effafa] z-[2] min-h-screen pb-4 fixed w-full top-0 left-0">
+    <div class="g-red h-64 w-full bg-[#effafa]">adfasdfsadfasdfa</div>
+    <navBar class="z-[3]" />
     <customForm
+    class="z-[3]"
       @get_data="get_data"
       @value="searched_word = $event"
       :result="data"
     />
 
+    <div v-if="is_found" class="fixed top-32 left-[50%] z-[3] -translate-x-[50%]">
       <searchedWord
-      v-if="is_found"
       @play_audio="play_audio"
       :data="data"
       :audio_present="audio_present"
       />
-
-    <div class="flex fixed top-48 w-full gap-4 overflow-scroll scrollbar-hide scroll-smooth p-4 justify-center" v-if="is_found">
-      <partOfSpeechBtn v-for="(data, index) in partsOfSpeech" :partOfSpeech="data" :key="index" @partOfSpeechName="check($event)"/>
+      <div class="flex w-full gap-4 overflow-scroll scrollbar-hide scroll-smooth p-4 justify-center">
+        <partOfSpeechBtn v-for="(data, index) in partsOfSpeech" :partOfSpeech="data" :key="index" @partOfSpeechName="check($event)"/>
+      </div>
     </div>
 
-      <div class="overflow-y-scroll h-[calc(100vh/1.9)] fixed w-[90%] left-[50%] -translate-x-[50%] m-auto top-[280px] rounded-lg scrollbar scrollbar-track-orange-300 scrollbar-thumb-blue-200 hover:scrollbar-thumb-blue-300 scrollbar-w-[1px]" v-if="answer">
+      <div class="w-[90%] m-auto rounded-lg" v-if="answer">
         <active_part_of_speech :partOfSpeech="partOfSpeech" />
       </div>
 

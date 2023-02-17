@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="$emit('partOfSpeechName', partOfSpeech)" class="bg-orange-600 text-white rounded-2xl p-2 px-5 hover:bg-orange-400 transition all ease-linear shadow-sm shadow-orange-700">
+        <button @click="$emit('partOfSpeechName', partOfSpeech)" class="bg-[#dcefef] text-[#5ba4a4] rounded-2xl p-2 px-5  transition all ease-linear">
             {{ partOfSpeech }}
         </button>
         
@@ -19,5 +19,8 @@ const props = defineProps({
 </script>
 
 <style>
-
+a {
+    background: #dcefef;
+    background: #deeded;
+}
 </style>
