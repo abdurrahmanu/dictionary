@@ -1,8 +1,7 @@
 <template>
     <div>
         <div 
-        :class="[message.includes('failed') ? 'bg-red-500' : '']"
-        class="bg-blue-400 mt-20 m-auto min-w-[350px] w-[400px] p-10 py-10 rounded-3xl text-center text-white text-2xl font-black uppercase" @click="$emit('focus_input')">
+        class="bg-teal-300 m-auto mt-10 transition-all ease-linear p-5 rounded-3xl text-center text-white text-2xl font-black uppercase w-fit" @click="$emit('focus_input')">
             <transition appear name="fade">
                 <p>{{ message }}</p>
             </transition>

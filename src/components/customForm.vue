@@ -1,10 +1,9 @@
 <template>
-    <div 
-    :class="[Object.keys(result).length ? 'md:w-[40%] bg-green-400' : 'md:w-full']"
-    class="flex md:fixed w-full top-[50px] left-0 justify-center box-border bg-gradient-to-r from-gray-100 via-blue-300 to-blue-900 h-[50px]">
-        <form @submit.prevent="$emit('get_data')" class="flex w-full">
+    <!-- :class="[Object.keys(result).length ? 'md:w-[40%] bg-green-400' : 'md:w-full']" -->
+    <div class="fixed top-20">
+        <form @submit.prevent="$emit('get_data')" class="flex fixed w-full">
             <input
-            class="bg-transparent w-full border-b border-white p-2 px-5 font-sans outline-none"
+            class="bg-transparent h-10 m-auto rounded-full w-[80%] bg-white font-mono p-2 px-5 outline-none shadow-sm shadow-blue-300"
             type="search"
             placeholder="Search"
             ref="search"

@@ -1,47 +1,59 @@
 <template>
-  <div class="overflow-hidden bg-blue-500 min-h-screen">
-    <div class="h-[50px] w-full"></div>
-    
+  <div class="overflow-hidden bg-orange-200 min-h-screen pb-4 pt-32">
     <navBar />
-    <customForm @get_data="get_data" @value="searched_word = $event" :result="data"/>
-    <messageBox v-if="!is_found" :message="message" @focus_input="focus_input"/>
+    <customForm
+      @get_data="get_data"
+      @value="searched_word = $event"
+      :result="data"
+    />
 
-    <div class="box-border p-5 pb-10 md:py-0 md:px-0 min-h-[calc(100vh-100px)] md:flex" v-else>
+      <searchedWord
+      v-if="is_found"
+      @play_audio="play_audio"
+      :data="data"
+      :audio_present="audio_present"
+      />
 
-      <div class="md:w-[40%] grid items-center">
-        <searchedWord @play_audio="play_audio" :data="data" :audio_present="audio_present" />
-      </div>
-
-      <div 
-      class="grid gap-5 md:w-[60%] h-fit 
-      md:h-[calc(100vh-50px)] rounded-sm bg-blue-300 p-5 md:overflow-y-scroll shadow-sm shadow-gray-700">
-        <h1 class="text-3xl w-fit m-auto font-black font-mono text-blue-600 text-center underline">DEFINITIONS</h1>
-        <partOfSpeech :part_of_speech="data" :key="i" v-for="(data, i) of data.meanings"/>
-      </div>
-
+    <div class="flex fixed top-48 w-full gap-4 overflow-scroll scrollbar-hide scroll-smooth p-4 justify-center" v-if="is_found">
+      <partOfSpeechBtn v-for="(data, index) in partsOfSpeech" :partOfSpeech="data" :key="index" @partOfSpeechName="check($event)"/>
     </div>
 
+      <div class="overflow-y-scroll h-[calc(100vh/1.9)] fixed w-[90%] left-[50%] -translate-x-[50%] m-auto top-[280px] rounded-lg scrollbar scrollbar-track-orange-300 scrollbar-thumb-blue-200 hover:scrollbar-thumb-blue-300 scrollbar-w-[1px]" v-if="answer">
+        <active_part_of_speech :partOfSpeech="partOfSpeech" />
+      </div>
+
+    <messageBox
+      v-if="!is_found"
+      :message="message"
+      @focus_input="focus_input"
+    />
   </div>
 </template>
 
 <script>
-import searchedWord from '../components/searchedWord.vue'
-import customForm from '../components/customForm.vue'
-import navBar from '@/components/navBar.vue';
-import messageBox from '../components/messageBox.vue'
-import partOfSpeech from '../components/partOfSpeech.vue'
+import active_part_of_speech from "@/components/active_part_of_speech.vue";
+import searchedWord from "../components/searchedWord.vue";
+import partOfSpeechBtn from "@/components/partOfSpeechBtn.vue";
+import customForm from "../components/customForm.vue";
+import navBar from "@/components/navBar.vue";
+import messageBox from "../components/messageBox.vue";
+import gsap from 'gsap'
 
 export default {
   components: {
     searchedWord,
-    partOfSpeech,
     messageBox,
     navBar,
     customForm,
+    partOfSpeechBtn,
+    active_part_of_speech,
   },
 
   data() {
     return {
+      answer: false,
+      partsOfSpeech: [],
+      partOfSpeech: [],
       is_found: false,
       data: [],
       searched_word: "",
@@ -53,6 +65,13 @@ export default {
   },
 
   methods: {
+    check (e) {
+      if (e) {
+        this.answer = true
+        this.partOfSpeech = this.data.meanings.filter(partOfSpeech => partOfSpeech.partOfSpeech == e)[0]
+        console.log(this.partOfSpeech);
+      }
+    },
     async get_data() {
       if (this.searched_word.length < 1) {
         this.message = "";
@@ -65,6 +84,7 @@ export default {
             `https://api.dictionaryapi.dev/api/v2/entries/en/${this.searched_word}`
           );
           const data = await res.json();
+          this.partsOfSpeech = data[0].meanings.map(each => each.partOfSpeech)
 
           if (res.status === 200) {
             this.is_found = true;
