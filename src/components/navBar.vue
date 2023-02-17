@@ -14,7 +14,8 @@ export default {};
 
 <style>
 a {
-    background: #5ba4a4;
+    background: #479292;
     background: #effafa;
+    background: #f1f4f4;
 }
 </style>

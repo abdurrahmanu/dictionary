@@ -1,28 +1,29 @@
 <template>
-  <div class="overflow-hidden bg-[#effafa] z-[2] min-h-screen pb-4 fixed w-full top-0 left-0">
-    <div class="g-red h-64 w-full bg-[#effafa]">adfasdfsadfasdfa</div>
-    <navBar class="z-[3]" />
+  <div class="overflow-x-hidden bg-[#effafa] min-h-screen pb-4">
+    <div class="h-[100px] w-full bg-[#effafa]"></div>
+    <navBar class="" />
     <customForm
-    class="z-[3]"
       @get_data="get_data"
       @value="searched_word = $event"
       :result="data"
     />
 
-    <div v-if="is_found" class="fixed top-32 left-[50%] z-[3] -translate-x-[50%]">
-      <searchedWord
-      @play_audio="play_audio"
-      :data="data"
-      :audio_present="audio_present"
-      />
-      <div class="flex w-full gap-4 overflow-scroll scrollbar-hide scroll-smooth p-4 justify-center">
-        <partOfSpeechBtn v-for="(data, index) in partsOfSpeech" :partOfSpeech="data" :key="index" @partOfSpeechName="check($event)"/>
+    <div class="bg-red-500 md:flex md:h-[calc(100vh-100px)] pt-10 m-auto">
+      <div v-if="is_found" class="pt-10 md:w-[40%] md:bg-green-500">
+        <searchedWord
+        @play_audio="play_audio"
+        :data="data"
+        :audio_present="audio_present"
+        />
+        <div class="flex w-full gap-4 overflow-scroll scrollbar-hide align-middle scroll-smooth p-4">
+          <partOfSpeechBtn v-for="(data, index) in partsOfSpeech" :partOfSpeech="data" :key="index" @partOfSpeechName="check($event)"/>
+        </div>
       </div>
+  
+        <div v-if="answer" class="md:w-[60%] align-middle md:bg-yellow-500">
+          <active_part_of_speech :partOfSpeech="partOfSpeech" />
+        </div>
     </div>
-
-      <div class="w-[90%] m-auto rounded-lg" v-if="answer">
-        <active_part_of_speech :partOfSpeech="partOfSpeech" />
-      </div>
 
     <messageBox
       v-if="!is_found"
@@ -62,7 +63,7 @@ export default {
       message: "make your search",
       audio: "",
       audio_present: false,
-      clicked: "",
+      loading: false,
     };
   },
 
@@ -71,58 +72,38 @@ export default {
       if (e) {
         this.answer = true
         this.partOfSpeech = this.data.meanings.filter(partOfSpeech => partOfSpeech.partOfSpeech == e)[0]
-        console.log(this.partOfSpeech);
       }
     },
     async get_data() {
-      if (this.searched_word.length < 1) {
-        this.message = "";
-        setTimeout(() => {
-          this.message = "make your search";
-        }, 100);
-      } else {
-        try {
-          const res = await fetch(
-            `https://api.dictionaryapi.dev/api/v2/entries/en/${this.searched_word}`
-          );
+      this.partOfSpeech = []
+      this.answer = false
+      this.is_found = false
+      if (this.searched_word.length < 1) this.message = "make your search";
+      else {
+            try {
+          const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.searched_word}`);
           const data = await res.json();
-          this.partsOfSpeech = data[0].meanings.map(each => each.partOfSpeech)
-
+          
           if (res.status === 200) {
-            this.is_found = true;
             this.data = data[0];
+            this.partsOfSpeech = this.data.meanings.map(each => each.partOfSpeech)
+            this.is_found = true;
             this.searched_word = "";
             for (let i = 0; i < this.data.phonetics.length; i++) {
               if (this.data.phonetics[i].audio) {
                 this.audio = this.data.phonetics[i].audio;
                 this.audio_present = true;
                 break;
-              } else {
-                console.log("No audio file");
-                this.audio_present = false;
-              }
+              } else this.audio_present = false;
             }
-          } else {
-            this.message = "";
-            setTimeout(() => {
-              this.message = "Word not found, Try another word";
-            }, 100);
-            this.is_found = false;
-          }
+          } else this.message = "Word not found, Try another word";
         } catch (error) {
-          this.message = "";
-          setTimeout(() => {
             this.message = error.message;
-          }, 100);
         }
       }
     },
     play_audio() {
       this.$refs.audio.play();
-    },
-    focus_input() {
-      const search_box = this.$refs.search;
-      search_box.focus();
     },
   },
 };

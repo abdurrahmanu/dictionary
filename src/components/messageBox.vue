@@ -1,11 +1,8 @@
 <template>
     <div>
-        <div 
-        class="bg-teal-300 m-auto mt-10 transition-all ease-linear p-5 rounded-3xl text-center text-white text-2xl font-black uppercase w-fit" @click="$emit('focus_input')">
-            <transition appear name="fade">
-                <p>{{ message }}</p>
-            </transition>
-        </div>
+        <transition appear name="fade">
+            <p class="text-[#357883] text-xl mt-20 uppercase text-center font-black" @click="$emit('focus_input')">{{ message }}</p>
+        </transition>
     </div>
 </template>
 

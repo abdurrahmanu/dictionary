@@ -1,6 +1,6 @@
 <template>
     <!-- :class="[Object.keys(result).length ? 'md:w-[40%] bg-green-400' : 'md:w-full']" -->
-    <div class="fixed top-20">
+    <div class="-mt-[10px]">
         <form @submit.prevent="$emit('get_data')" class="flex fixed w-full">
             <input
             class="bg-transparent h-10 m-auto rounded-full w-[80%] bg-white font-mono p-2 px-5 outline-none shadow-sm shadow-blue-300"
