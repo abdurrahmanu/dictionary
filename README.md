@@ -1,5 +1,7 @@
 # dictionary_app
 
+##Dictionary with RESTful API
+
 ## Project setup
 ```
 npm install
