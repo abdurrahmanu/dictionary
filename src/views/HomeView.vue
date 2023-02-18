@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-hidden bg-[#effafa] min-h-screen pb-4">
+  <div class="overflow-x-hidden bg-[#effafa] min-h-screen pb-4 md:pb-0">
     <div class="h-[100px] w-full bg-[#effafa]"></div>
     <navBar class="" />
     <customForm
@@ -8,32 +8,37 @@
       :result="data"
     />
 
-    <div class="bg-red-500 md:flex md:h-[calc(100vh-100px)] pt-10 m-auto">
-      <div v-if="is_found" class="pt-10 md:w-[40%] md:bg-green-500">
-        <searchedWord
-        @play_audio="play_audio"
-        :data="data"
-        :audio_present="audio_present"
-        />
-        <div class="flex w-full gap-4 overflow-scroll scrollbar-hide align-middle scroll-smooth p-4">
-          <partOfSpeechBtn v-for="(data, index) in partsOfSpeech" :partOfSpeech="data" :key="index" @partOfSpeechName="check($event)"/>
+    <div class="md:flex md:h-[calc(100vh-100px)] pt-10 md:pt-0 m-auto">
+      <div class="md:pt-20 md:w-[40%]">
+        <div v-if="data_loading" class="w-10 h-10 rounded-xl bg-gradient-tr from-gray-600 via-gray-600 to-transparent">
         </div>
+          <div v-if="is_found & !data_loading">
+            <searchedWord
+            :data="data"
+            :audio_present="audio_present"
+            />
+            <div class="flex w-full py-10 gap-3 px-5 flex-wrap justify-center">
+              <partOfSpeechBtn v-for="(name, index) in partsOfSpeech" 
+              :name="name" :key="index" @partOfSpeechName="check($event)"/>
+            </div>
+          </div>
       </div>
   
-        <div v-if="answer" class="md:w-[60%] align-middle md:bg-yellow-500">
-          <active_part_of_speech :partOfSpeech="partOfSpeech" />
-        </div>
+      <div class="md:w-[60%] md:border-l md:border-[#275b5b] align-middle md:pt-20">
+          <active_part_of_speech v-if="answer" :partOfSpeech="partOfSpeech" />
+      </div>
+
     </div>
 
     <messageBox
-      v-if="!is_found"
+      v-if="!is_found && !data_loading"
       :message="message"
-      @focus_input="focus_input"
     />
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import active_part_of_speech from "@/components/active_part_of_speech.vue";
 import searchedWord from "../components/searchedWord.vue";
 import partOfSpeechBtn from "@/components/partOfSpeechBtn.vue";
@@ -42,69 +47,56 @@ import navBar from "@/components/navBar.vue";
 import messageBox from "../components/messageBox.vue";
 import gsap from 'gsap'
 
-export default {
-  components: {
-    searchedWord,
-    messageBox,
-    navBar,
-    customForm,
-    partOfSpeechBtn,
-    active_part_of_speech,
-  },
+const answer = ref( false)
+const partsOfSpeech = ref([])
+const partOfSpeech = ref( [])
+const is_found = ref( false)
+const data = ref( [])
+const searched_word = ref( "")
+const message = ref( "make your search")
+const audio = ref( "")
+const audio_present = ref(false)
+const data_loading = ref(false)
 
-  data() {
-    return {
-      answer: false,
-      partsOfSpeech: [],
-      partOfSpeech: [],
-      is_found: false,
-      data: [],
-      searched_word: "",
-      message: "make your search",
-      audio: "",
-      audio_present: false,
-      loading: false,
-    };
-  },
+function check (e) {
+  if (e) {
+    answer.value = true
+    partOfSpeech.value = data.value.meanings.filter(partOfSpeech => partOfSpeech.partOfSpeech == e)[0]
+  }
+}
 
-  methods: {
-    check (e) {
-      if (e) {
-        this.answer = true
-        this.partOfSpeech = this.data.meanings.filter(partOfSpeech => partOfSpeech.partOfSpeech == e)[0]
-      }
-    },
-    async get_data() {
-      this.partOfSpeech = []
-      this.answer = false
-      this.is_found = false
-      if (this.searched_word.length < 1) this.message = "make your search";
-      else {
-            try {
-          const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.searched_word}`);
-          const data = await res.json();
-          
-          if (res.status === 200) {
-            this.data = data[0];
-            this.partsOfSpeech = this.data.meanings.map(each => each.partOfSpeech)
-            this.is_found = true;
-            this.searched_word = "";
-            for (let i = 0; i < this.data.phonetics.length; i++) {
-              if (this.data.phonetics[i].audio) {
-                this.audio = this.data.phonetics[i].audio;
-                this.audio_present = true;
-                break;
-              } else this.audio_present = false;
-            }
-          } else this.message = "Word not found, Try another word";
-        } catch (error) {
-            this.message = error.message;
+async function get_data() {
+  partOfSpeech.value = []
+  answer.value = false
+  is_found.value = false
+  if (searched_word.value.length < 1) message.value = "make your search";
+  else {
+    try {
+      data_loading.value = true
+      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searched_word.value}`);
+      const word_definitions = await res.json();      
+      if (res.status === 200) {
+        data.value = word_definitions[0];
+        data_loading.value = false;
+        partsOfSpeech.value = data.value.meanings.map(each => each.partOfSpeech);
+        is_found.value = true;
+        searched_word.value = "";
+        for (let i = 0; i < data.value.phonetics.length; i++) {
+          if (data.value.phonetics[i].audio) {
+            audio.value = data.value.phonetics[i].audio;
+            audio_present.value = true;
+            break;
+          } else audio_present.value = false;
         }
+      } else {
+        data_loading.value = false
+        message.value = "Word not found, Try another word";
       }
-    },
-    play_audio() {
-      this.$refs.audio.play();
-    },
-  },
-};
+    } catch (error) {
+        data_loading.value = false
+        message.value = error.message;
+    }
+  }
+}
+
 </script>

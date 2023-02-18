@@ -1,30 +1,22 @@
 <template>
     <div>
-        <Suspense>
-            <template #default>
-                <button @click="$emit('partOfSpeechName', partOfSpeech)" class="bg-[#dcefef] text-[#5ba4a4] rounded-2xl p-2 px-5  transition all ease-linear">
-                    {{ partOfSpeech }}
-                </button>
-            </template>
-        
-            <template #fallback>
-                <div class="w-10 h-5 rounded-xl bg-gradient-tr from-gray-300 via-white to-transparent"></div>
-            </template>
-        </Suspense>
+        <button @click="activate(name)" class="bg-[#dcefef] text-[#5ba4a4] hover:bg-[#5ba4a4] hover:text-white active:scale-[98%] rounded-2xl p-2 px-5  transition all ease-linear">
+            {{ name }}
+        </button>
     </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 
+const active = ref(false)
+const emits = defineEmits(['partOfSpeechName'])
 const props = defineProps({
-    partOfSpeech: String,
+    name: String,
 })
-</script>
 
-<style>
-a {
-    background: #dcefef;
-    background: #deeded;
+const activate = (e) => {
+    active.value = true
+    emits('partOfSpeechName', e)
 }
-</style>
+</script>

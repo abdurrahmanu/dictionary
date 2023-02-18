@@ -1,18 +1,16 @@
 <template>
-    <div>
+    <div class="md:absolute top-44 md:w-[40%]">
         <transition appear name="fade">
-            <p class="text-[#357883] text-xl mt-20 uppercase text-center font-black" @click="$emit('focus_input')">{{ message }}</p>
+            <p class="text-[#357883] text-xl mt-20 uppercase text-center font-black">{{ message }}</p>
         </transition>
     </div>
 </template>
 
-<script>
-export default {
-    props: {
+<script setup>
+import { defineProps } from 'vue';
+const props =  defineProps({
         message: String
-    }
-
-}
+})
 </script>
 
 <style scoped>
