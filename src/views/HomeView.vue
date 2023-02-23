@@ -17,7 +17,7 @@
             :data="data"
             :audio_present="audio_present"
             />
-            <div class="flex w-full py-10 gap-3 px-5 flex-wrap justify-center">
+            <div class="flex md:grid w-full py-10 gap-3 px-5 flex-wrap justify-center">
               <partOfSpeechBtn v-for="(name, index) in partsOfSpeech" 
               :name="name" :key="index" @partOfSpeechName="check($event)"/>
             </div>
