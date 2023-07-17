@@ -32,7 +32,7 @@ const newSearch = (e) => {
 }
 
 watchEffect(async () => {
-  if (word.value.length) {
+  if (word.value.length && !Array.from(formattedData.value).length) {
     let localStorageEntry = wordInLocalStorage(word)
 
     if (localStorageEntry.exists.value) {

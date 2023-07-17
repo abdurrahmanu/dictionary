@@ -1,5 +1,5 @@
 <template>
-    <div :class="[toggleHistory ? 'top-[127px]' : 'top-[95px]']" class="fixed w-full left-0 bg-slate-100 shadow-sm shadow-black">
+    <div :class="[toggleHistory ? 'top-[127px]' : 'top-[92px]']" class="fixed w-full left-0 bg-slate-100 shadow-sm shadow-black">
         <div class="flex items-center m-auto border-t border-black">
             <div class="text-zinc-600 py-1 border-r border-black w-fit font-black items-center">
                 <div v-if="data.word" class="gap-4 px-10 flex justify-center min-w-fit items-center">

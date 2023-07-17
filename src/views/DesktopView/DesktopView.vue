@@ -2,7 +2,7 @@
     <div class="bg-black scrollbar-thin scrollbar-thumb-green-400">
         <div v-if="isBigScreen" class="flex max-w-[1300px] bg-slate-100 m-auto">
             <div class="min-w-[300px] w-fit h-screen">
-                <h1 @click="checkHistory" class="text-center font-mono py-[2px] bg-gray-300 text-lg hover:bg-gray-200">{{ toggleHistory ? 'CLOSE' : 'OPEN HISTORY' }}</h1>
+                <h1 :class="[toggleHistory ? 'bg-red-400' : 'bg-gray-300']" @click="checkHistory" class="text-center font-mono text-lg py-[22px]">{{ toggleHistory ? 'CLOSE' : 'OPEN' }} HISTORY</h1>
                 <div v-if="toggleHistory">
                     <div class="text-center font-mono font-bold text-red-400 py-1" v-if="historyIsEmpty.length">
                         {{ historyIsEmpty }}
@@ -33,12 +33,12 @@
                 </div>
             </div>
             <div class="w-full scrollbar-thin scrollbar-thumb-blue-200  h-screen overflow-y-scroll relative bg-white">
-                <h2 class="p-5 text-2xl font-mono font-medium w-full bg-slate-800 text-center text-gray-400">ENGLISH DICTIONARY</h2>
+                <h2 class="p-5 text-2xl font-mono w-full bg-slate-400 text-zinc-200 text-center font-bold">ENGLISH DICTIONARY</h2>
                 <customForm 
                 :historyWord="historyWord"
                 :data="data"
                 @inputEvent="inputEvent = $event"
-                @word="word = $event" />
+                @word="$emit('word', $event)" />
                 
                 <wordDefinitions 
                 v-if="data.word && !loadingData" 
@@ -98,11 +98,6 @@ watchEffect(() => {
     if (word.value.length) {
         emit('word', word.value)
     }
-
-    if (inputEvent.value) {
-        toggleHistory.value = false
-        previousSearch.value = {}
-    }
 })
 
 const checkHistory = () => {
@@ -116,8 +111,6 @@ const checkHistory = () => {
                 historyIsEmpty.value = ''
             }, 1000);
         }
-    } else {
-        previousSearch.value = {}
     }
 };
 </script>

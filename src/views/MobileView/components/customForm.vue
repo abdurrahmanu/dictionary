@@ -16,13 +16,6 @@
                     @input="inputEvent = $event.target.value" />
                 </div>
             </form>
-            <div class="w-fit pt-1" v-if="openDrop">
-                <div class="bg-gray-300 w-fit max-w-full">
-                    <ul>
-                        <li v-for="index in 5" :key="index" class="pr-5 hover:bg-white hover:text-gray-600 border border-gray-400 p-2 text-xs">{{inputEvent}}</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -31,7 +24,6 @@
 import searchSvg from '../../../assets/svg/search.vue'
 import { ref, defineProps, defineEmits, onMounted, watchEffect } from "vue";
 
-const openDrop = ref(false)
 const word = ref('')
 const inputEvent = ref('')
 const search = ref(null)
@@ -52,10 +44,6 @@ const props = defineProps({
 // })
 
 watchEffect(() => {
-    if (props.historyWord.length) {
-        word.value = props.historyWord
-    }
-
     if (inputEvent.value) {
         emit('inputEvent', inputEvent.value)
     }
@@ -66,8 +54,6 @@ const submit = (e) => {
         if (props.data.word === word.value) return
         else {
             emit('word', word.value)
-            inputEvent.value = ''
-            openDrop.value = false
         }
     }
     else return

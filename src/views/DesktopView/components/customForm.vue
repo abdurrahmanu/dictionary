@@ -1,9 +1,9 @@
 <template>
-    <div class="bg-slate-100 w-full top-0 shadow-sm shadow-gray-200 left-0 sticky">
+    <div class="bg-slate-200 w-full top-0 shadow-sm shadow-gray-200 left-0 sticky">
         <div class="h-[70px] ">
             <form @submit.prevent="submit" class="w-[90%] py-3 px-5 m-auto">
                 <input
-                class="bg-transparent h-10 rounded-full bg-slate-200 font-mono w-[70%] max-w-[500px] p-2 px-5 outline-none border"
+                class="bg-transparent h-10 rounded-full bg-zinc-100 font-mono w-[70%] max-w-[500px] p-2 px-5 outline-none border"
                 type="search"
                 placeholder="Search"
                 ref="search"
@@ -19,7 +19,6 @@
 import searchSvg from '../../../assets/svg/search.vue'
 import { ref, defineProps, defineEmits, watch, watchEffect, onMounted } from "vue";
 
-const openDrop = ref(false)
 const word = ref('')
 const inputEvent = ref('')
 const search = ref(null)
@@ -31,10 +30,6 @@ const props = defineProps({
 })
 
 watchEffect(() => {
-    if (props.historyWord.length) {
-        word.value = props.historyWord
-    }
-
     if (inputEvent.value) {
         emit('inputEvent', inputEvent.value)
     }
@@ -46,12 +41,9 @@ onMounted(() => {
 
 const submit = (e) => {
     if (word.value.length) {
-        if (props.data.word === word.value) {
-        }
+        if (props.data.word === word.value) return
         else {
             emit('word', word.value)
-            inputEvent.value = ''
-            openDrop.value = false
         }
     }
     else return

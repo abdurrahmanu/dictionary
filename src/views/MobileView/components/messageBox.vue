@@ -5,7 +5,7 @@
             <p
                 class="bg-white font-thin shadow-md shadow-gray-300 hover:shadow-sm rounded-lg uppercase text-center w-[75%] m-auto p-7 py-12 max-w-[450px]">
                 <div v-if="wordData.data">
-                    <span v-if="wordData.data.message" class="font-bold"> <span class="text-red-400">{{ word }}</span>{{ wordData.data.message ? ' ' + wordData.data.message : '' }}</span>
+                    <span v-if="wordData.data.message" class="font-bold">{{ wordData.data.message ? word + ' ' + wordData.data.message : '' }}</span>
                     <span v-if="wordData.data.error" class="text-red-500 font-bold text-lg">{{ wordData.data.error === 'Failed to fetch' ? 'no connection' : wordData.data.error }}</span>
                 </div>
                 <span v-else>MAKE YOUR SEARCH</span>
