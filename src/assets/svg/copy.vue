@@ -1,6 +1,6 @@
 <template>
 	<div class="svg">
-		<svg class="h-5 w-5" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+		<svg class="h-4 w-4" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 		 viewBox="0 0 460 460" style="enable-background:new 0 0 460 460;" xml:space="preserve">
 	<g>
 		<g>
