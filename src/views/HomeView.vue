@@ -49,13 +49,13 @@ watchEffect(async () => {
           let previousHistory = ref(JSON.parse(localStorage.getItem('dictionaryHistoryArray')))
           if (previousHistory.value.length > 9) {
             previousHistory.value.shift()
-            previousHistory.value.unshift(formattedData.value)
+            previousHistory.value.push(formattedData.value)
             localStorage.setItem('dictionaryHistoryArray', JSON.stringify(previousHistory.value))
           }
           else {
             previousHistory.value.push(formattedData.value)
             localStorage.setItem('dictionaryHistoryArray', JSON.stringify(previousHistory.value))
-          } 
+          }
         } else {
           let newArray = []
           newArray[0] = formattedData.value

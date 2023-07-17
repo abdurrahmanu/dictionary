@@ -17,12 +17,12 @@
 
 <script setup>
 import searchSvg from '../../../assets/svg/search.vue'
-import { ref, defineProps, defineEmits, watch, watchEffect } from "vue";
+import { ref, defineProps, defineEmits, watch, watchEffect, onMounted } from "vue";
 
 const openDrop = ref(false)
 const word = ref('')
 const inputEvent = ref('')
-const search = ref()
+const search = ref(null)
 const emit = defineEmits(['word', 'inputEvent'])
 
 const props = defineProps({
@@ -30,18 +30,18 @@ const props = defineProps({
     historyWord: String
 })
 
-//OPEN DROPDOWN FOR TEXT SEARCH
-
-// watchEffect(() => {
-//     if (!word.value.length) openDrop.value = false
-//     emit('inputEvent', inputEvent.value)
-//     if (inputEvent.value.length) openDrop.value = true
-// })
-
 watchEffect(() => {
     if (props.historyWord.length) {
         word.value = props.historyWord
     }
+
+    if (inputEvent.value) {
+        emit('inputEvent', inputEvent.value)
+    }
+})
+
+onMounted(() => {
+    search.value.focus()
 })
 
 const submit = (e) => {

@@ -55,6 +55,10 @@ watchEffect(() => {
     if (props.historyWord.length) {
         word.value = props.historyWord
     }
+
+    if (inputEvent.value) {
+        emit('inputEvent', inputEvent.value)
+    }
 })
 
 const submit = (e) => {

@@ -2,9 +2,14 @@
     <div class="bg-black scrollbar-thin scrollbar-thumb-green-400">
         <div v-if="isBigScreen" class="flex max-w-[1300px] bg-slate-100 m-auto">
             <div class="min-w-[300px] w-fit h-screen">
-                <h1 @click="search" class="text-center font-mono py-[2px] bg-gray-300 text-lg hover:bg-gray-200">{{ previousSearch.showPreviousSearch ? 'CLOSE' : 'OPEN HISTORY' }}</h1>
-                <div class="m-auto max-w-[300px] justify-center py-2 w-fit flex flex-wrap" v-if="previousSearch.showPreviousSearch">
-                    <div @click="sendHistoryWordAsProp(_word)" class="text-center border m-[.4px] hover:text-white hover:bg-gray-500 border-gray-300 p-1 font-mono" v-for="(_word, index) in previousSearch.previousSearchWords" :key="index">{{ _word }}</div>
+                <h1 @click="checkHistory" class="text-center font-mono py-[2px] bg-gray-300 text-lg hover:bg-gray-200">{{ toggleHistory ? 'CLOSE' : 'OPEN HISTORY' }}</h1>
+                <div v-if="toggleHistory">
+                    <div class="text-center font-mono font-bold text-red-400 py-1" v-if="historyIsEmpty.length">
+                        {{ historyIsEmpty }}
+                    </div>
+                    <div class="m-auto max-w-[300px] justify-center py-2 w-fit flex flex-wrap" v-if="previousSearch.showPreviousSearch">
+                        <div @click="sendHistoryWordAsProp(_word)" class="text-center border m-[.4px] hover:text-white hover:bg-gray-500 border-gray-300 p-1 font-mono" v-for="(_word, index) in previousSearch.previousSearchWords" :key="index">{{ _word }}</div>
+                    </div>
                 </div>
                 <searchWord :data="data" />
                 <div v-if="data.partsOfSpeech">
@@ -81,6 +86,7 @@ const historyWord = ref('')
 const previousSearch = ref({})
 const toggleHistory = ref(false)
 const inputEvent = ref('')
+const historyIsEmpty = ref('')
 const props = defineProps({ wordData: Object, data: Object, loadingData: Boolean })
 
 const sendHistoryWordAsProp = (_word) => {
@@ -92,12 +98,24 @@ watchEffect(() => {
     if (word.value.length) {
         emit('word', word.value)
     }
+
+    if (inputEvent.value) {
+        toggleHistory.value = false
+        previousSearch.value = {}
+    }
 })
 
-const search = () => {
+const checkHistory = () => {
     toggleHistory.value = !toggleHistory.value
     if (toggleHistory.value) {
         previousSearch.value = searchHistory();
+        if (!previousSearch.value.previousSearchWords.length) {
+            historyIsEmpty.value = 'No History'
+            setTimeout(() => {
+                toggleHistory.value = false
+                historyIsEmpty.value = ''
+            }, 1000);
+        }
     } else {
         previousSearch.value = {}
     }

@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <searchedWord :toggleHistory="toggleHistory" :data="data" />
     <div class="p-3 scrollbar-thin scrollbar-track-blue-200">
       <div class="" v-for="(partOfSpeech, index) in data.partsOfSpeech" :key="index">
         <div class=" p-2">
@@ -84,7 +83,7 @@
 
 <script setup>
 import { defineProps, ref, onMounted } from "vue";
-import searchedWord from './searchWord.vue'
+// import searchedWord from './searchWord.vue'
 import CopySvg from "../../../assets/svg/copy.vue";
 
 
