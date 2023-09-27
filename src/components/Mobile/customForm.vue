@@ -1,14 +1,11 @@
 <template>
-    <div class="p-1">
+    <div class="p-1 bg-slate-200">
         <div class="w-fit m-auto transition-all delay-75">
             <form @submit.prevent="submit" class="grid justify-center">
                 <div class="flex relative">
-                    <searchSvg 
-                    :class="[collapseInput && !Array.from(data).length ? 'left-[50%] translate-x-[-50%]' : 'left-3']"
-                    class="absolute top-[50%] translate-y-[-50%]" />
                     <input
-                    :class="[collapseInput && !Array.from(data).length ? 'w-10 h-10' : 'max-w-[90%] w-[300px] pl-10 h-10']"
-                    class="border-2 transition-all duration-150 p-1 border-teal-700 bg-white font-mono outline-none text-base rounded-full"
+                    :class="['max-w-[90%] w-[300px] pl-10 h-10']"
+                    class="transition-all duration-150 p-1 bg-white font-mono outline-none text-base rounded-full"
                     type="search"
                     :placeholder="collapseInput ? '' : 'word'"
                     ref="search"
@@ -21,7 +18,6 @@
 </template>
 
 <script setup>
-import searchSvg from '../../../assets/svg/search.vue'
 import { ref, defineProps, defineEmits, onMounted, watchEffect } from "vue";
 
 const word = ref('')
@@ -34,14 +30,6 @@ const props = defineProps({
     data: Object,
     historyWord: String
 })
-
-//OPEN DROPDOWN FOR TEXT SEARCH
-
-// watchEffect(() => {
-//     if (!word.value.length) openDrop.value = false
-//     emit('inputEvent', inputEvent.value)
-//     if (inputEvent.value.length) openDrop.value = true
-// })
 
 watchEffect(() => {
     if (inputEvent.value) {

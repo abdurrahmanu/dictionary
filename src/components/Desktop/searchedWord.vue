@@ -21,8 +21,8 @@
 
 <script setup>
 import { onMounted, defineProps, ref, watchEffect } from '@vue/runtime-core';
-import Audio from "../../../assets/svg/audio.vue";
-import Copy from "../../../assets/svg/copy.vue";
+import Audio from "../../assets/svg/audio.vue";
+import Copy from "../../assets/svg/copy.vue";
 
 const audio = ref(null)
 const props = defineProps({

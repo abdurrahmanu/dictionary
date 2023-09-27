@@ -1,7 +1,7 @@
 <template>
-    <div :class="[toggleHistory ? 'top-[127px]' : 'top-[92px]']" class="fixed w-full left-0 bg-slate-100 shadow-sm shadow-black">
-        <div class="flex items-center m-auto border-t border-black">
-            <div class="text-zinc-600 py-1 border-r border-black w-fit font-black items-center">
+    <div :class="[toggleHistory ? 'top-[127px]' : 'top-[92px]']" class="fixed z-10 w-full left-0 bg-slate-100 shadow-md shadow-gray-300">
+        <div class="flex items-center m-auto">
+            <div class="text-zinc-600 py-1 border-r border-gray-300 w-fit font-black items-center">
                 <div v-if="data.word" class="gap-4 px-10 flex justify-center min-w-fit items-center">
                     <p class="uppercase max-w-[200px] font-mono text-lg overflow-auto">
                         {{ data.word }}
@@ -28,8 +28,8 @@
 
 <script setup>
 import { onMounted, defineProps, ref, watchEffect } from '@vue/runtime-core';
-import Audio from "../../../assets/svg/audio.vue";
-import Copy from "../../../assets/svg/copy.vue";
+import Audio from "../../assets/svg/audio.vue";
+import Copy from "../../assets/svg/copy.vue";
 
 const audio = ref(null)
 const props = defineProps({

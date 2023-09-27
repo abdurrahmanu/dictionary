@@ -17,8 +17,8 @@ import { ref, watchEffect } from "vue";
 import { fetchWordDefinitions } from "@/composables/fetchWordDefinitions";
 import { wordInLocalStorage } from "@/composables/wordInLocalStorage";
 import { formatWordData } from '@/composables/formatWordData'
-import DesktopView from './DesktopView/DesktopView.vue'
-import MobileView from "./MobileView/MobileView.vue";
+import DesktopView from './DesktopView.vue'
+import MobileView from "./MobileView.vue";
 
 const word = ref('')
 const wordData = ref({})
@@ -65,7 +65,5 @@ watchEffect(async () => {
     }
   }
 })
-
-
 
 </script>

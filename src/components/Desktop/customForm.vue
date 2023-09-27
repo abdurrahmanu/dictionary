@@ -16,7 +16,6 @@
 </template>
 
 <script setup>
-import searchSvg from '../../../assets/svg/search.vue'
 import { ref, defineProps, defineEmits, watch, watchEffect, onMounted } from "vue";
 
 const word = ref('')
