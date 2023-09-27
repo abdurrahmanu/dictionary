@@ -25,8 +25,8 @@ const wordData = ref({})
 const formattedData = ref({})
 const loadingData = ref(false)
 
-const newSearch = (word) => {
-  word.value = word
+const newSearch = (event) => {
+  word.value = event
   wordData.value = {}
   formattedData.value = {}
 }
