@@ -4,7 +4,6 @@ export function wordInLocalStorage(word) {
     const exists = ref(false)
     const previousSearchWords = ref([])
     const wordData = ref({})
-
     const allPrevious = JSON.parse(localStorage.getItem('dictionaryHistoryArray'));
 
     if (Array.isArray(allPrevious)) {

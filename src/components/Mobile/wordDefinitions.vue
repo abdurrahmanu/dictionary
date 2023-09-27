@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="-z-10">
     <div class="p-3 scrollbar-thin scrollbar-track-blue-200">
       <div class="" v-for="(partOfSpeech, index) in data.partsOfSpeech" :key="index">
         <div class=" p-2">
