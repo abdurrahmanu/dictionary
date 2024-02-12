@@ -1,4 +1,7 @@
 import {ref, computed} from 'vue'
+import { fetchWordDefinitions } from "@/composables/fetchWordDefinitions";
+import { wordInLocalStorage } from "@/composables/wordInLocalStorage";
+import { formatWordData } from '@/composables/formatWordData'
 
 const defineStore = (name, fn) => {
   return {name, fn}
@@ -59,7 +62,6 @@ export const dictionaryStore =   defineStore('dictionaryStore', () => {
     }
   }
 }
-
 
   return {
     word,
