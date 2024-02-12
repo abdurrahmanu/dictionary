@@ -1,6 +1,10 @@
 import {ref, computed} from 'vue'
 
-export const dictionaryStore = () => {
+const defineStore = (name, fn) => {
+  return {name, fn}
+}
+
+export const dictionaryStore =   defineStore('dictionaryStore', () => {
   const word = ref('')
   const wordData = ref({})
   const formattedData = ref({})
@@ -65,4 +69,4 @@ export const dictionaryStore = () => {
     getData,
     newSearch,
   }
-}
+})
