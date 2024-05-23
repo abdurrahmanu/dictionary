@@ -3,7 +3,7 @@
         <div class="py-10 mt-20" v-if="!input">
             <div>
             <p
-                class="bg-white font-thin shadow-md shadow-gray-300 hover:shadow-sm rounded-lg uppercase text-center w-[75%] m-auto p-7 py-12 max-w-[450px]">
+                class="bg-white  rounded-lg uppercase text-center w-[75%] m-auto p-7 py-12 max-w-[450px]">
                 <div v-if="wordData.data">
                     <span v-if="wordData.data.message" class="font-bold">{{ wordData.data.message ? word + ' ' + wordData.data.message : '' }}</span>
                     <span v-if="wordData.data.error" class="text-red-500 font-bold text-lg">{{ wordData.data.error === 'Failed to fetch' ? 'no connection' : wordData.data.error }}</span>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps, watchEffect, ref, } from 'vue';
+import { watchEffect, ref, } from 'vue';
 
 const message = ref('')
 const input = ref('')

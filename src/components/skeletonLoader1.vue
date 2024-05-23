@@ -4,3 +4,4 @@
         <div class="w-[70%] bg-gray-300 h-full"></div>
     </div>
 </template>
+
