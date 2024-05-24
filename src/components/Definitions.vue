@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from "vue";
 import Copy from "./svg/Copy.vue";
-import Word from './Word'
+import Word from './Word.vue'
 
 const props = defineProps({ 
   data: Object, 
