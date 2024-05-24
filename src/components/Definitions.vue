@@ -49,7 +49,6 @@
 
 <script setup>
 import { ref } from "vue";
-import Copy from "./svg/Copy.vue";
 import Word from './Word.vue'
 
 const props = defineProps({ 
@@ -68,7 +67,6 @@ const showCopyIcon = (index, partOfSpeech) => {
 }
 
 const copyDefinitionToClipBoard = async (definition) => {
-  console.log(definition);
   copiedText.value = true
   await navigator.clipboard.writeText(definition).then(() => {
     copiedText.value = false
