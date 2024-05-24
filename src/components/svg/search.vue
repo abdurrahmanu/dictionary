@@ -17,12 +17,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-  name: 'Search-svg'
-}
-</script>
-
 <style scoped>
 	.svg {
 		border: none;

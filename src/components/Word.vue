@@ -15,7 +15,7 @@
 
         <p class="flex items-center space-x-4">
             <span>{{ data.phonetics[0].text }}</span>
-            <Copy @click="copyWord(data.word)" :class="w-4" />
+            <copy @click="copyWord(data.word)" :class="w-4" />
         </p>
     </div>
 </template>
@@ -23,7 +23,7 @@
 <script setup>
 import { ref } from 'vue';
 import Audio from "./svg/audio.vue";
-import Copy from "./svg/Copy.vue";
+import copy from "./svg/copy.vue";
 
 const audio = ref(null)
 const props = defineProps({

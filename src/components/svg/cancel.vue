@@ -16,8 +16,3 @@
 	</div>
 </template>
 
-<script>
-export default {
-    name: 'Cancel-svg'
-}
-</script>

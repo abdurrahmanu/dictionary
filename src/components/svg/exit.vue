@@ -69,9 +69,3 @@
 	</div>
 
 </template>
-
-<script>
-export default {
-  name: 'Exit-svg'
-}
-</script>
