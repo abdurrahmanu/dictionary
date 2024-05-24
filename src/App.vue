@@ -1,10 +1,13 @@
 <template>
-  <div class="max-w-[1200px] m-auto w-[100%]">
-    <Main  
-    :loading="loading" 
-    :data="data" 
-    @word="getData($event)" 
-    :wordData="wordData" />
+  <div class="bg-black">
+    <div class="max-w-[1200px] m-auto w-[100%] bg-neutral-900 h-[100dvh]">
+      <Main  
+      :loading="loading" 
+      :data="data" 
+      @word="getData($event)" 
+      :wordData="wordData" />
+    </div>
+    
   </div>
 </template>
 
@@ -26,7 +29,8 @@ const getData = async (input) => {
 
   loading.value = true
   wordData.value = await fetchWordDefinitions("https://api.dictionaryapi.dev/api/v2/entries/en/" + word.value)
+  if (wordData.value.data.wordData) data.value = formatWordData(wordData.value.data)
   loading.value = false
-  if (wordData.value.data.wordData)data.value = formatWordData(wordData.value.data)
+
 }
 </script>

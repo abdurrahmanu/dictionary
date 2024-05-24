@@ -1,6 +1,6 @@
 <template>
         <input
-        class="transition-all duration-150 px-1 border-b border-b-black font-mono outline-none text-base w-[300px] h-10 bg-transparent"
+        class="transition-all duration-150 px-1 border-b border-b-white font-mono outline-none text-base max-w-[200px] w-[90%] bg-transparent"
         type="text"
         ref="inputEl"
         v-model="word" 
@@ -13,7 +13,6 @@ import { ref, watch } from "vue";
 
 const word = ref('')
 const emit = defineEmits(['word'])
-
 const props = defineProps({
     data: Object,
 })
