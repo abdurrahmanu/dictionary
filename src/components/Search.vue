@@ -1,12 +1,12 @@
 <template>
 {{word}}
         <input
-        class="transition-all duration-150 px-1 border-b border-b-white font-mono outline-none text-base max-w-[200px] w-[90%] bg-transparent"
+        class="px-1 border-b border-b-slate-400 font-mono outline-none text-sm max-w-[200px] w-[90%] bg-transparent"
         type="text"
-        ref="inputEl"
-        v-model="word" 
+        v-model="word"
         :placeholder="'word'"
-        @keyup.enter="word.length ? submit() : ''" />
+        @keyup.enter="word.length ? submit() : ''"
+        />
     </template>
 
 <script setup>
@@ -50,16 +50,10 @@ const dictionaryCharacters = {
 
 watch(word, (newVal, oldVal) => {
     if (!newVal || newVal.length === 0) return
-
-    const len = newVal.length
-    const lastChar = newVal[len - 1]
-    const secondLastChar = len >= 2 ? newVal[len - 2] : null
-
-    const isDoubleDash = lastChar === '-' && secondLastChar === '-'
-    const isInvalidChar = !dictionaryCharacters[lastChar]
-
-    if (isInvalidChar || isDoubleDash) {
-        word.value = oldVal // revert to previous valid value
+    if (newVal && dictionaryCharacters[newVal.length - 1]) {
+       word.value = newVal
+    } else {
+       word.value = oldVal
     }
 })
 
