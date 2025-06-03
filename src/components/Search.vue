@@ -1,4 +1,5 @@
 <template>
+{{word}}
         <input
         class="transition-all duration-150 px-1 border-b border-b-white font-mono outline-none text-base max-w-[200px] w-[90%] bg-transparent"
         type="text"
