@@ -47,10 +47,18 @@ const dictionaryCharacters = {
     '-': 27
 }
 
-watch(word, (newVal) => {
-    let lastChar = newVal[newVal.length - 1]
-    if (!dictionaryCharacters[lastChar] || (newVal[newVal.length - 2] === lastChar && lastChar === '-')) {
-        word.value = word.value.slice(0, newVal.length - 1)
+watch(word, (newVal, oldVal) => {
+    if (!newVal || newVal.length === 0) return
+
+    const len = newVal.length
+    const lastChar = newVal[len - 1]
+    const secondLastChar = len >= 2 ? newVal[len - 2] : null
+
+    const isDoubleDash = lastChar === '-' && secondLastChar === '-'
+    const isInvalidChar = !dictionaryCharacters[lastChar]
+
+    if (isInvalidChar || isDoubleDash) {
+        word.value = oldVal // revert to previous valid value
     }
 })
 
